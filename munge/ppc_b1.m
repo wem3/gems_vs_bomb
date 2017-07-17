@@ -83,3 +83,4 @@ for s = 1:length(subList)
     d.subject = subject;
     data(s) = d;
 end
+cd(studyDir);
