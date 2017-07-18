@@ -77,6 +77,7 @@ for s = 1:height(b4_demo)
     subject.age = b4_demo.age(s);
     subject.sex = b4_demo.gender{s};
     subject.race = b4_demo.race{s};
+    subject.igbias = mean([b4_demo.idZur1(s,:),b4_demo.idZur2(s,:)] - [b4_demo.idNyx1(s,:),b4_demo.idNyx2(s,:)]);
     d.N = length(choice(subID==subList(s)));
     d.C = length(unique(choice(subID==subList(s))));
     d.c = choice(subID==subList(s));
