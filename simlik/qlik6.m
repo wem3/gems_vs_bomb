@@ -15,8 +15,8 @@ function lik = qlik6(x,data)
     %   data - structure with the following fields:
     %       .c - [N x 1] choices
     %       .r - [N x 2] rewards [gems, bomb]
-    %       .gP - [N x C] gems reward probabilities
-    %       .bP - [N x C] bomb reward probabilities
+    %       .pG - [N x C] gems reward probabilities
+    %       .pB - [N x C] bomb reward probabilities
     %       .C - number of choice options
     %       .N - number of trials
     %       .O - number of reward types

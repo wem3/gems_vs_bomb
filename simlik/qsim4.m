@@ -17,8 +17,8 @@ function [lik, data] = qlik4(x,data,sim,expt)
     %   data - structure with the following fields:
     %       .c - [N x 1] choices
     %       .r - [N x 2] rewards [gems, bomb]
-    %       .gP - [N x C] gems reward probabilities
-    %       .bP - [N x C] bomb reward probabilities
+    %       .pG - [N x C] gems reward probabilities
+    %       .pB - [N x C] bomb reward probabilities
     %       .C - number of choice options
     %       .N - number of trials
     %       .O - number of reward types
@@ -63,7 +63,7 @@ function [lik, data] = qlik4(x,data,sim,expt)
             r = [0 0];
             if (strcmp(expt,'b2') || strcmp(expt,'b3'))
                 % determine rewards
-                if data.gP(n,c) > rand
+                if data.pG(n,c) > rand
                     if data.D(c) > rand
                         r(1) = 1;
                     else
@@ -71,10 +71,10 @@ function [lik, data] = qlik4(x,data,sim,expt)
                     end
                 end
             elseif (strcmp(expt,'b4') || strcmp(expt,'b1'))
-                if data.gP(n,c) > rand
+                if data.pG(n,c) > rand
                     r(1) = 1;
                 end
-                if data.bP(n,c) > rand
+                if data.pB(n,c) > rand
                     r(2) = 1;
                 end
             end
