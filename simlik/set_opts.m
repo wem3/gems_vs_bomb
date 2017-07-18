@@ -59,4 +59,13 @@ switch model
         param(4).name = 'positive bomb learning rate';
         param(5).name = 'negative gems learning rate';
         param(6).name = 'negative bomb learning rate';
+    case 5
+        param(4) = param(3);
+        param(4).name = 'gems preference weight';
+    case 6
+        param(4) = param(3);
+        param(5) = param(3);
+        param(3).name = 'positive learning rate';
+        param(4).name = 'negative learning rate';
+        param(5).name = 'gems preference weight';
 end

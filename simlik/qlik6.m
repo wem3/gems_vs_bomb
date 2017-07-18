@@ -1,4 +1,4 @@
-function lik = qlik2(x,data)
+function lik = qlik6(x,data)
     
     % Q-learning on multi-armed bandit with choice stickiness and separate learning rates for positive
     % and negative prediction errors.

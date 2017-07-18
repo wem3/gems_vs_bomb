@@ -23,7 +23,7 @@ disp(['~~~~~~~~~~~~~~~~working on b1, Model 1~~~~~~~~~~~~~~~~~~~'])
 param = set_opts(1);
 r = mfit_optimize(@qlik1,param,data,nstarts);
 bandit(1).results(1) = r;
-bandit(1).results(1).epr = mfit_priorfit(r.x,p);
+bandit(1).results(1).epr = mfit_priorfit(r.x,param);
 % 2. inverse temperature, positive learning rate, negative learning rate
 disp(['~~~~~~~~~~~~~~~~working on b1, Model 2~~~~~~~~~~~~~~~~~~~'])
 param = set_opts(3);

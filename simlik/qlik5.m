@@ -54,8 +54,8 @@ function lik = qlik5(x,data)
        r = data.r(n,:);
        lik = lik + q(c) - logsumexp(q);
        % compute gems/bomb reward prediction errors
-       grpe = r(1)-v(c);
-       brpe = r(2)-v(c);
+       grpe = r(1)-vg(c);
+       brpe = r(2)-vb(c);
        % update values
        vg(c) = vg(c) + lr*grpe;
        vb(c) = vb(c) + lr*brpe;
