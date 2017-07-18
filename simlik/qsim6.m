@@ -1,15 +1,17 @@
-function data = qsim1(x,data,expt)
+function data = qsim6(x,data,expt)
     
-    % Q-learning on multi-armed bandit
+    % Q-learning on multi-armed bandit with choice stickiness and separate learning rates for positive
+    % and negative prediction errors.
     %
-    % USAGE: [lik, data] = qlik1(x,data,opts)
+    % USAGE: [lik, data] = q_sim_lik(x,data,opts)
     %
     % INPUTS:
     %   x - parameters: (may vary based on opts structure)
     %       x(1) - inverse temperature
     %       x(2) - stickiness inverse temperature
-    %       x(3) - learning rate
-    %
+    %       x(3) - learning rate (for gems prediction errors)
+    %       x(4) - learning rate (for bomb prediction errors)
+    %       x(5) - preference weighting parameter
     %
     %   data - structure with the following fields:
     %       .c - [N x 1] choices
@@ -37,14 +39,17 @@ function data = qsim1(x,data,expt)
     
     it = x(1);
     k  = x(2);
-    lr = x(3);
+    lr_gems = x(3);
+    lr_bomb = x(4);
+    w  = x(5);
 
     C = data.C;
-    v = zeros(1,C); % initial values
+    vG = zeros(1,C); % initial gems values
+    vB = zeros(1,C); % initial bomb values
     u = zeros(1,C);  % stickiness
     lik = 0;
     for n = 1:data.N
-        q = it*v + k*u;
+        q = it*(w*vG + (1-w)*vB) + k*u;
         % simulation mode
         p = exp(q - logsumexp(q,2));
         c = fastrandsample(p);
@@ -70,9 +75,11 @@ function data = qsim1(x,data,expt)
         data.c(n,1) = c;
         data.r(n,:) = r;
         % compute gems/bomb reward prediction errors
-        rpe = sum(r)-v(c);
+        grpe = r(1)-vG(c);
+        brpe = r(2)-vB(c);
         % update values
-        v(c) = v(c) + lr*rpe;
+        vG(c) = vG(c) + lr_gems*grpe;
+        vB(c) = vB(c) + lr_bomb*brpe;
         % update stickiness
         u = zeros(1,C); u(c) = 1;
     end

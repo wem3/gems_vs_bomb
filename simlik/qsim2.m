@@ -1,4 +1,4 @@
-function [lik, data] = qlik2(x,data,sim,expt)
+function data = qsim2(x,data,expt)
     
     % Q-learning on multi-armed bandit with choice stickiness and separate learning rates for positive
     % and negative prediction errors.
@@ -47,39 +47,31 @@ function [lik, data] = qlik2(x,data,sim,expt)
     u = zeros(1,C);  % stickiness
     lik = 0;
     for n = 1:data.N
-        v = vG + vB;
-        q = it*v + k*u;
+        q = it*(vG + vB) + k*u;
         % simulation mode
-        if sim == 1
-            p = exp(q - logsumexp(q,2));
-            c = fastrandsample(p);
-            lik = lik + log(p(c));
-            r = [0 0];
-            if (strcmp(expt,'b2') || strcmp(expt,'b3'))
-                % determine rewards
-                if data.gP(n,c) > rand
-                    if data.D(c) > rand
-                        r(1) = 1;
-                    else
-                        r(2) = 1;
-                    end
-                end
-            elseif (strcmp(expt,'b4') || strcmp(expt,'b1'))
-                if data.gP(n,c) > rand
+        p = exp(q - logsumexp(q,2));
+        c = fastrandsample(p);
+        lik = lik + log(p(c));
+        r = [0 0];
+        if (strcmp(expt,'b2') || strcmp(expt,'b3'))
+            % determine rewards
+            if data.gP(n,c) > rand
+                if data.D(c) > rand
                     r(1) = 1;
-                end
-                if data.bP(n,c) > rand
+                else
                     r(2) = 1;
                 end
             end
-            data.c(n,1) = c;
-            data.r(n,:) = r;
-        % likelihood mode
-        else
-            c = data.c(n);
-            r = data.r(n,:);
-            lik = lik + q(c) - logsumexp(q,2);
+        elseif (strcmp(expt,'b4') || strcmp(expt,'b1'))
+            if data.gP(n,c) > rand
+                r(1) = 1;
+            end
+            if data.bP(n,c) > rand
+                r(2) = 1;
+            end
         end
+        data.c(n,1) = c;
+        data.r(n,:) = r;
         % compute gems/bomb reward prediction errors
         grpe = r(1)-vG(c);
         brpe = r(2)-vB(c);
@@ -88,6 +80,4 @@ function [lik, data] = qlik2(x,data,sim,expt)
         vB(c) = vB(c) + lr_bomb*brpe;
         % update stickiness
         u = zeros(1,C); u(c) = 1;
-        data.grpe(n,1) = grpe;
-        data.brpe(n,1) = brpe;
     end

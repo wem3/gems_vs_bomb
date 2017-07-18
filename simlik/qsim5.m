@@ -1,4 +1,4 @@
-function data = qsim1(x,data,expt)
+function data = qsim5(x,data,expt)
     
     % Q-learning on multi-armed bandit
     %
@@ -38,13 +38,15 @@ function data = qsim1(x,data,expt)
     it = x(1);
     k  = x(2);
     lr = x(3);
+    w  = x(4);
 
     C = data.C;
-    v = zeros(1,C); % initial values
+    vG = zeros(1,C); % initial values
+    vB = zeros(1,C); % initial values
     u = zeros(1,C);  % stickiness
     lik = 0;
     for n = 1:data.N
-        q = it*v + k*u;
+        q = it*(w*vG + (1-w)*vB) + k*u;
         % simulation mode
         p = exp(q - logsumexp(q,2));
         c = fastrandsample(p);
@@ -70,9 +72,11 @@ function data = qsim1(x,data,expt)
         data.c(n,1) = c;
         data.r(n,:) = r;
         % compute gems/bomb reward prediction errors
-        rpe = sum(r)-v(c);
+        grpe = r(1)-vG(c);
+        brpe = r(2)-vB(c);
         % update values
-        v(c) = v(c) + lr*rpe;
+        vG(c) = vG(c) + lr*grpe;
+        vB(c) = vB(c) + lr*brpe;
         % update stickiness
         u = zeros(1,C); u(c) = 1;
     end
