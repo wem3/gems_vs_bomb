@@ -1,0 +1,2 @@
+# Don't track .mats, cause they get crazy huge
+*.mat

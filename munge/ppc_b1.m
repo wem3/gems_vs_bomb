@@ -53,7 +53,7 @@ reward = [tmp(:,5)+tmp(:,6)];
 rt = tmp(:,1);
 pChoice = tmp(:,7)+tmp(:,8);
 pArms = [tmp(:,10)+tmp(:,11),tmp(:,12)+tmp(:,13),tmp(:,14)+tmp(:,15),tmp(:,16)+tmp(:,17)];
-%system(['rm ',fullfile(cleanDataDir,'b1_data.csv')]);
+%system(['rm ',fullfile(cleanDataDir,'b1_trial_data.csv')]);
 subList=str2num(char(b1_demo.subID));
 
 % loop over b1_trial
