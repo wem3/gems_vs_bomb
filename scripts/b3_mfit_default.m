@@ -28,14 +28,14 @@ param = set_opts(3);
 r = mfit_optimize(@qlik3,param,data,nstarts);
 b3.results(3) = r;
 b3.results(3).epr = mfit_priorfit(r.x,param);
-% 4. inverse temperature, stickiness, pos gems, neg gems, pos bomb, neg bomb
+% 4. inverse temperature, stickiness, learning rate, weighting parameter
 disp(['~~~~~~~~~~~~~~~~working on b3, Model 4~~~~~~~~~~~~~~~~~~~'])
-param = set_opts(4);
-r = mfit_optimize(@qlik4,param,data,nstarts);
+param = set_opts(5);
+r = mfit_optimize(@qlik5,param,data,nstarts);
 b3.results(4) = r;
 b3.results(4).epr = mfit_priorfit(r.x,param);
 % bayesian model selection
 b3.bms = mfit_bms(b3.results);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-cabut cleanDataDir b3;
+cabut b3;
 save b3_mfit_default.mat;
