@@ -30,6 +30,7 @@ b5_idFile1 = fullfile(cleanDataDir,'b5_id1.csv');
 b5_idFile2 = fullfile(cleanDataDir,'b5_id2.csv');
 b5_idFile3 = fullfile(cleanDataDir,'b5_id3.csv');
 b5_idFile4 = fullfile(cleanDataDir,'b5_id4.csv');
+b5_mcFile = fullfile(cleanDataDir,'b5_mc.csv');
 % get demographic data (cat raw data, write temp .csv & read in)
 % system(['cat *.csv | grep "survey-text-sam" | sed ''s/{.*,.*}//g'' | cut -d'','' -f 7,11,38,39,40 | sed ''s/"//g'' > ', fullfile(cleanDataDir,'b5_demo.csv')]);
 % call Zach's python function to standardize desired columns
@@ -42,6 +43,7 @@ system(['grep "0.0-9.0-0.0" ',tmpFile,' | cut -d'','' -f 1,25,26,27 > ',b5_idFil
 system(['grep "0.0-9.0-1.0" ',tmpFile,' | cut -d'','' -f 1,25,26,27 > ',b5_idFile2]);
 system(['grep "0.0-401.0-0.0" ',tmpFile,' | cut -d'','' -f 1,25,26,27 > ',b5_idFile3]);
 system(['grep "0.0-401.0-1.0" ',tmpFile,' | cut -d'','' -f 1,25,26,27 > ',b5_idFile4]);
+system(['grep "0.0-403.0" ',tmpFile,' | cut -d'','' -f 1,28 > ',b5_mcFile]);
 
 b5_demo = readtable(b5_demoFile,'Format','%s%s%f%s');
 b5_door = readtable(b5_doorFile,'Format','%s%f%f%f%f');
@@ -57,6 +59,7 @@ id1 = csvread(b5_idFile1);
 id2 = csvread(b5_idFile2);
 id3 = csvread(b5_idFile3);
 id4 = csvread(b5_idFile4);
+mc = csvread(b5_mcFile);
 subID = tmp(:,1);
 tnum = tmp(:,2);
 choice = tmp(:,3)+1;
@@ -89,6 +92,7 @@ for s = 1:height(b5_demo)
     subject.age = b5_demo.age(s);
     subject.sex = b5_demo.gender{s};
     subject.race = b5_demo.race{s};
+    subject.mc = mc(s,2);
     d.N = length(choice(subID==subList(s)));
     d.C = length(unique(choice(subID==subList(s))));
     d.c = choice(subID==subList(s));
@@ -124,8 +128,10 @@ end
 system(['rm ',tmpFile]);
 system(['rm ',b5_demoFile]);
 system(['rm ',b5_doorFile]);
+system(['rm ',b5_rewardFile]);
 %system(['rm ',b5_trialFile]);
 system(['rm ',b5_idFile1]);
 system(['rm ',b5_idFile2]);
 system(['rm ',b5_idFile3]);
 system(['rm ',b5_idFile4]);
+system(['rm ',b5_mcFile]);
