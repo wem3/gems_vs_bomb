@@ -1,5 +1,5 @@
 function [data] = ppc_b3(studyDir)
-% PPC_RAW_b3.M %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PPC_B3.M %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Preprocess b3 data for model specification via mfit
 %
@@ -13,7 +13,7 @@ function [data] = ppc_b3(studyDir)
 %
 %
 % written: ~#wem3#~ [20170203]
-% edited:  ~#wem3#~ [20170717] Adapted for b3 | bandit_either
+% edited:  ~#wem3#~ [20170717] Adapted for b3 | bandit_either_2
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % set up paths

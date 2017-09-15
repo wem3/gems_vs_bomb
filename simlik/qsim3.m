@@ -1,4 +1,4 @@
-function [lik, data] = qlik3(x,data,sim,expt)
+function [lik, data] = qlik3(x,data,expt)
     
     % Q-learning on multi-armed bandit with choice stickiness and separate learning rates for positive
     % and negative prediction errors.
@@ -49,36 +49,29 @@ function [lik, data] = qlik3(x,data,sim,expt)
     for n = 1:data.N
         q = it*v + k*u;
         % simulation mode
-        if sim == 1
-            p = exp(q - logsumexp(q,2));
-            c = fastrandsample(p);
-            lik = lik + log(p(c));
-            r = [0 0];
-            if (strcmp(expt,'b2') || strcmp(expt,'b3'))
-                % determine rewards
-                if data.pG(n,c) > rand
-                    if data.D(c) > rand
-                        r(1) = 1;
-                    else
-                        r(2) = 1;
-                    end
-                end
-            elseif (strcmp(expt,'b4') || strcmp(expt,'b1'))
-                if data.pG(n,c) > rand
+        p = exp(q - logsumexp(q,2));
+        c = fastrandsample(p);
+        lik = lik + log(p(c));
+        r = [0 0];
+        if (strcmp(expt,'b2') || strcmp(expt,'b3'))
+            % determine rewards
+            if data.pG(n,c) > rand
+                if data.D(c) > rand
                     r(1) = 1;
-                end
-                if data.pB(n,c) > rand
+                else
                     r(2) = 1;
                 end
             end
-            data.c(n,1) = c;
-            data.r(n,:) = r;
-        % likelihood mode
-        else
-            c = data.c(n);
-            r = data.r(n,:);
-            lik = lik + q(c) - logsumexp(q,2);
+        elseif (strcmp(expt,'b4') || strcmp(expt,'b1'))
+            if data.pG(n,c) > rand
+                r(1) = 1;
+            end
+            if data.pB(n,c) > rand
+                r(2) = 1;
+            end
         end
+        data.c(n,1) = c;
+        data.r(n,:) = r;
         % compute gems/bomb reward prediction errors
         rpe = sum(r)-v(c);
         % update values

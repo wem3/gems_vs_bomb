@@ -22,14 +22,15 @@ data = bandit(1).data;
 disp(['~~~~~~~~~~~~~~~~working on b1, Model 1~~~~~~~~~~~~~~~~~~~'])
 param = set_opts(1);
 r = mfit_optimize(@qlik1,param,data,nstarts);
+r.epr = mfit_priorfit(r.x,param);
 bandit(1).results(1) = r;
-bandit(1).results(1).epr = mfit_priorfit(r.x,param);
+
 % 2. inverse temperature, positive learning rate, negative learning rate
 disp(['~~~~~~~~~~~~~~~~working on b1, Model 2~~~~~~~~~~~~~~~~~~~'])
 param = set_opts(3);
 r = mfit_optimize(@qlik3,param,data,nstarts);
+r.epr = mfit_priorfit(r.x,param);
 bandit(1).results(2) = r;
-bandit(1).results(2).epr = mfit_priorfit(r.x,param);
 bandit(1).bms = mfit_bms(bandit(1).results);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -40,89 +41,92 @@ data = bandit(2).data;
 disp(['~~~~~~~~~~~~~~~~working on b2, Model 1~~~~~~~~~~~~~~~~~~~'])
 param = set_opts(1);
 r = mfit_optimize(@qlik1,param,data,nstarts);
+r.epr = mfit_priorfit(r.x,param);
 bandit(2).results(1) = r;
-bandit(2).results(1).epr = mfit_priorfit(r.x,param);
+
 % 2. inverse temperature, stickiness, gems learning rate, bomb learning rate
 disp(['~~~~~~~~~~~~~~~~working on b2, Model 2~~~~~~~~~~~~~~~~~~~'])
 param = set_opts(2);
 r = mfit_optimize(@qlik2,param,data,nstarts);
+r.epr = mfit_priorfit(r.x,param);
 bandit(2).results(2) = r;
-bandit(2).results(2).epr = mfit_priorfit(r.x,param);
+
 % 3. inverse temperature, stickiness, separate learning rates for pos/neg prediction errors
 disp(['~~~~~~~~~~~~~~~~working on b2, Model 3~~~~~~~~~~~~~~~~~~~'])
 param = set_opts(3);
 r = mfit_optimize(@qlik3,param,data,nstarts);
+r.epr = mfit_priorfit(r.x,param);
 bandit(2).results(3) = r;
-bandit(2).results(3).epr = mfit_priorfit(r.x,param);
+
 % 4. inverse temperature, stickiness, pos gems, neg gems, pos bomb, neg bomb
 disp(['~~~~~~~~~~~~~~~~working on b2, Model 4~~~~~~~~~~~~~~~~~~~'])
 param = set_opts(4);
 r = mfit_optimize(@qlik4,param,data,nstarts);
+r.epr = mfit_priorfit(r.x,param);
 bandit(2).results(4) = r;
-bandit(2).results(4).epr = mfit_priorfit(r.x,param);
+
 % bayesian model selection
 bandit(2).bms = mfit_bms(bandit(2).results);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % fit b3 models
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-data = bandit(3).data;
 % 1. inverse temperature, stickiness, learning rate
 disp(['~~~~~~~~~~~~~~~~working on b3, Model 1~~~~~~~~~~~~~~~~~~~'])
 param = set_opts(1);
 r = mfit_optimize(@qlik1,param,data,nstarts);
+r.epr = mfit_priorfit(r.x,param);
 bandit(3).results(1) = r;
-bandit(3).results(1).epr = mfit_priorfit(r.x,param);
 % 2. inverse temperature, stickiness, gems learning rate, bomb learning rate
 disp(['~~~~~~~~~~~~~~~~working on b3, Model 2~~~~~~~~~~~~~~~~~~~'])
 param = set_opts(2);
 r = mfit_optimize(@qlik2,param,data,nstarts);
+r.epr = mfit_priorfit(r.x,param);
 bandit(3).results(2) = r;
-bandit(3).results(2).epr = mfit_priorfit(r.x,param);
 % 3. inverse temperature, stickiness, separate learning rates for pos/neg prediction errors
 disp(['~~~~~~~~~~~~~~~~working on b3, Model 3~~~~~~~~~~~~~~~~~~~'])
 param = set_opts(3);
 r = mfit_optimize(@qlik3,param,data,nstarts);
+r.epr = mfit_priorfit(r.x,param);
 bandit(3).results(3) = r;
-bandit(3).results(3).epr = mfit_priorfit(r.x,param);
-% 4. inverse temperature, stickiness, pos gems, neg gems, pos bomb, neg bomb
+% 4. inverse temperature, stickiness, learning rate, weighting parameter
 disp(['~~~~~~~~~~~~~~~~working on b3, Model 4~~~~~~~~~~~~~~~~~~~'])
-param = set_opts(4);
-r = mfit_optimize(@qlik4,param,data,nstarts);
+param = set_opts(5);
+r = mfit_optimize(@qlik5,param,data,nstarts);
+r.epr = mfit_priorfit(r.x,param);
 bandit(3).results(4) = r;
-bandit(3).results(4).epr = mfit_priorfit(r.x,param);
 % bayesian model selection
 bandit(3).bms = mfit_bms(bandit(3).results);
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % fit b4 models
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-data = bandit(4).data;
 % 1. inverse temperature, stickiness, learning rate
 disp(['~~~~~~~~~~~~~~~~working on b4, Model 1~~~~~~~~~~~~~~~~~~~'])
 param = set_opts(1);
 r = mfit_optimize(@qlik1,param,data,nstarts);
+r.epr = mfit_priorfit(r.x,param);
 bandit(4).results(1) = r;
-bandit(4).results(1).epr = mfit_priorfit(r.x,param);
 % 2. inverse temperature, stickiness, gems learning rate, bomb learning rate
 disp(['~~~~~~~~~~~~~~~~working on b4, Model 2~~~~~~~~~~~~~~~~~~~'])
 param = set_opts(2);
 r = mfit_optimize(@qlik2,param,data,nstarts);
+r.epr = mfit_priorfit(r.x,param);
 bandit(4).results(2) = r;
-bandit(4).results(2).epr = mfit_priorfit(r.x,param);
 % 3. inverse temperature, stickiness, separate learning rates for pos/neg prediction errors
 disp(['~~~~~~~~~~~~~~~~working on b4, Model 3~~~~~~~~~~~~~~~~~~~'])
 param = set_opts(3);
 r = mfit_optimize(@qlik3,param,data,nstarts);
+r.epr = mfit_priorfit(r.x,param);
 bandit(4).results(3) = r;
-bandit(4).results(3).epr = mfit_priorfit(r.x,param);
-% 4. inverse temperature, stickiness, pos gems, neg gems, pos bomb, neg bomb
+% 4. inverse temperature, stickiness, learning rate, weighting parameter
 disp(['~~~~~~~~~~~~~~~~working on b4, Model 4~~~~~~~~~~~~~~~~~~~'])
-param = set_opts(3);
-r = mfit_optimize(@qlik4,param,data,nstarts);
+param = set_opts(5);
+r = mfit_optimize(@qlik5,param,data,nstarts);
+r.epr = mfit_priorfit(r.x,param);
 bandit(4).results(4) = r;
-bandit(4).results(4).epr = mfit_priorfit(r.x,param);
 % bayesian model selection
 bandit(4).bms = mfit_bms(bandit(4).results);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 cabut rawDataDir cleanDataDir bandit;
-save b1234_mfit_default.mat;
+save b1234_mfit_default_25starts.mat;
