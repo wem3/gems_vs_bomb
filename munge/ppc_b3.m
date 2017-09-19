@@ -94,8 +94,8 @@ for s = 1:height(b3_demo)
     d.c = choice(subID==subList(s));
     d.r = reward(subID==subList(s),:);
     d.rt = rt(subID==subList(s));
-    D = door(subID==subList(s));
-    d.D = door(1,:);
+    D = door(subID==subList(s),:);
+    d.D = D(1,:);
     d.pG = pR(subID==subList(s),:);
     d.pB = pR(subID==subList(s),:);
     d.subject = subject;
@@ -124,6 +124,7 @@ end
 system(['rm ',tmpFile]);
 system(['rm ',b3_demoFile]);
 system(['rm ',b3_doorFile]);
+system(['rm ',b3_rewardFile]);
 %system(['rm ',b3_trialFile]);
 system(['rm ',b3_idFile1]);
 system(['rm ',b3_idFile2]);

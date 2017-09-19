@@ -84,7 +84,6 @@ b5_demo.idNyx1 = id2(:,[2:4]);
 b5_demo.idZur2 = id3(:,[2:4]);
 b5_demo.idNyx2 = id4(:,[2:4]);
 
-
 % loop over b5_trial
 for s = 1:height(b5_demo)
     % for data structure to use w/ mfit
@@ -98,14 +97,16 @@ for s = 1:height(b5_demo)
     d.c = choice(subID==subList(s));
     d.r = reward(subID==subList(s),:);
     d.rt = rt(subID==subList(s));
-    D = door(subID==subList(s));
-    d.D = door(1,:);
+    D = door(subID==subList(s),:);
+    d.D = D(1,:);
     d.pG = pR(subID==subList(s),:);
     d.pB = pR(subID==subList(s),:);
     d.subject = subject;
     data(s) = d;
 end
 
+% note subs who fail mc check
+excluded = find(mc(:,2)==0);
 % Compute percent of choices per door, and then match based on door's pGems
 gDoor = nan(length(data),4);
 for s = 1:length(data)
