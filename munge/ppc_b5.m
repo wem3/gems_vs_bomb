@@ -104,8 +104,7 @@ for s = 1:height(b5_demo)
     d.subject = subject;
     data(s) = d;
 end
-
-% note subs who fail mc check
+% note subs who fail mc check (not currently returned)
 excluded = find(mc(:,2)==0);
 % Compute percent of choices per door, and then match based on door's pGems
 gDoor = nan(length(data),4);
