@@ -15,14 +15,17 @@ nstarts=25; % number of start points for model optimization
 disp(['~~~~~~~~~~~~~~~~working on b1, Model 1~~~~~~~~~~~~~~~~~~~'])
 param = set_opts(1);
 r = mfit_optimize(@qlik1,param,data,nstarts);
+r.epr = mfit_priorfit(r.x,param);
 b1.results(1) = r;
-b1.results(1).epr = mfit_priorfit(r.x,param);
-% 2. inverse temperature, positive learning rate, negative learning rate
+
+% 2. inverse temperature, stickiness, positive learning rate, negative learning rate
 disp(['~~~~~~~~~~~~~~~~working on b1, Model 2~~~~~~~~~~~~~~~~~~~'])
 param = set_opts(3);
 r = mfit_optimize(@qlik3,param,data,nstarts);
+r.epr = mfit_priorfit(r.x,param);
 b1.results(2) = r;
-b1.results(2).epr = mfit_priorfit(r.x,param);
-b1.bms = mfit_bms(bandit(1).results);
+
+% Bayesian model selection, save output
+b1.bms = mfit_bms(b1.results);
 cabut b1 studyDir
 save b1_mfit_default.mat;

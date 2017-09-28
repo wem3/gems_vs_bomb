@@ -119,7 +119,6 @@ for s = 1:length(data)
   data(s).subject.pGems = sum(data(s).subject.cFreq.*[.8 .6 .4 .2]);
 end
 
-
 % clean up temporary .csv files
 system(['rm ',tmpFile]);
 system(['rm ',b3_demoFile]);
