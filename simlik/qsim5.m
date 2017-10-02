@@ -33,19 +33,25 @@ function data = qsim5(x,data,expt)
     %           .c - [N x 1] choices
     %           .r - [N x 1] rewards
     %
-    % Sam Gershman, July 2015
-    
+    % based on Qlearn.m by Sam Gershman, July 2015
+    %
+    % ~wem3~ 20170723
     it = x(1);
     k  = x(2);
     lr = x(3);
     w  = x(4);
 
     C = data.C;
-    vG = zeros(1,C); % initial values
-    vB = zeros(1,C); % initial values
-    u = zeros(1,C);  % stickiness
+    % vG = zeros(1,C); % initial values
+    % vB = zeros(1,C); % initial values
+    % u = zeros(1,C);  % stickiness
     lik = 0;
     for n = 1:data.N
+        if n == 1 || data.block(n)~=data.block(n-1)
+            vG = zeros(1,C); % initial values
+            vB = zeros(1,C); % initial values
+            u = zeros(1,C);  % stickiness
+        end
         q = it*(w*vG + (1-w)*vB) + k*u;
         % simulation mode
         p = exp(q - logsumexp(q,2));
