@@ -1,7 +1,7 @@
 % summarize data, write out .csv files
 
 %% INITIALIZE DIRECTORIES & SET PATHS for b2 (version 1)
-studyDir = '~/Desktop/hinl/bandit/gems_vs_bomb';
+studyDir = '/Volumes/crisp/hinl/bandit/gems_vs_bomb';
 rezDir = fullfile(studyDir,'rez');
 scriptDir = fullfile(studyDir,'scripts');
 
@@ -9,7 +9,7 @@ scriptDir = fullfile(studyDir,'scripts');
 % b1: model 1 beats model 2 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % load data
-load b1_mfit_model_4.mat
+load b1_mfit_d100.mat
 %loop over subjects
 for s = 1:length(b1.data)
     subID{s,1} = b1.data(s).subject.subID;
@@ -20,8 +20,9 @@ for s = 1:length(b1.data)
 end
 % get estimated parameters from results structure
 it = b1.results(1).x(:,1);
-lr = b1.results(1).x(:,3);
 sticky = b1.results(1).x(:,2);
+lr = b1.results(1).x(:,3);
+
 % make table, write it out
 t = table(subID,condition,payout,it,lr,sticky,rt_mean,rt_tot);
 writetable(t,[fullfile(rezDir,'b1_d100.csv')]);
@@ -31,7 +32,7 @@ cabut bandit studyDir rezDir;
 % b2: model 1 is the best according to bms, but only model 4 has wGems
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % load data
-load b2_mfit_model_4.mat
+load b2_mfit_d100.mat
 % loop over subjects
 for s = 1:length(b2.data)
     subID{s,1} = b2.data(s).subject.subID;
@@ -61,7 +62,7 @@ cabut studyDir rezDir;
 % b3: model 1 is the best according to bms, but only model 4 has wGems
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % load data
-load b3_mfit_model_4.mat
+load b3_mfit_d100.mat
 % loop over subjects
 for s = 1:length(b3.data)
     subID{s,1} = b3.data(s).subject.subID;
@@ -89,8 +90,8 @@ cabut studyDir rezDir;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % b4: model 4 is *clearly* the best according to bms
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-load data
-load b4_mfit_model_4.mat
+%load data
+load b4_mfit_d100.mat
 % loop over subjects
 for s = 1:length(b4.data)
     subID{s,1} = b4.data(s).subject.subID;
@@ -115,7 +116,7 @@ cabut studyDir rezDir;
 % b5: model 1 is the best according to bms, but only model 4 has wGems
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % load data
-load b5_mfit_model_4.mat
+load b5_mfit_d100.mat
 % make a vector to index subjects who passed the manipulation check
 gs = [];
 for s = 1:length(b5.data)

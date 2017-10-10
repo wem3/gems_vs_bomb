@@ -51,10 +51,9 @@ end
 it = b2.results(1).x(:,1);
 lr = b2.results(1).x(:,3);
 sticky = b2.results(1).x(:,2);
-%wGems = b2.results(1).x(:,4);
 % make table, write data to .csv for easy python import
 t = table(subID,gems,bomb,pGems,chose80,chose60,chose40,chose20,it,lr,sticky,rt_mean,rt_tot);
-writetable(t,[fullfile(rezDir,'b2_d100_table.csv')]);
+writetable(t,[fullfile(rezDir,'b2_best_table.csv')]);
 cabut studyDir rezDir;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -77,19 +76,19 @@ for s = 1:length(b3.data)
     rt_tot(s,1) = mean(b3.data(s).rt);
 end
 % get estimated parameters from results structure
-it = b3.results(4).x(:,1);
-lr = b3.results(4).x(:,3);
-sticky = b3.results(4).x(:,2);
-wGems = b3.results(4).x(:,4);
+it = b3.results(1).x(:,1);
+lr = b3.results(1).x(:,3);
+sticky = b3.results(1).x(:,2);
+
 % make table, write data to .csv for easy python import
-t = table(subID,gems,bomb,igbias,pGems,wGems,chose80,chose60,chose40,chose20,it,lr,sticky,rt_mean,rt_tot);
-writetable(t,[fullfile(rezDir,'b3_d100_table.csv')]);
+t = table(subID,gems,bomb,igbias,pGems,chose80,chose60,chose40,chose20,it,lr,sticky,rt_mean,rt_tot);
+writetable(t,[fullfile(rezDir,'b3_best_table.csv')]);
 cabut studyDir rezDir;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % b4: model 4 is *clearly* the best according to bms
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-load data
+%load data
 load b4_mfit_d100.mat
 % loop over subjects
 for s = 1:length(b4.data)
@@ -108,11 +107,11 @@ wGems = b4.results(4).x(:,4);
 
 % make table, write data to .csv for easy python import
 t = table(subID,gems,bomb,igbias,wGems,it,lr,sticky,rt_mean,rt_tot);
-writetable(t,[fullfile(rezDir,'b4_d100_table.csv')]);
+writetable(t,[fullfile(rezDir,'b4_best_table.csv')]);
 cabut studyDir rezDir;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% b5: model 1 is the best according to bms, but only model 4 has wGems
+% b5: model 3 is the best according to bms,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % load data
 load b5_mfit_d100.mat
@@ -138,17 +137,19 @@ for s = 1:length(gs);
     rt_tot(s,1) = mean(b5.data(s).rt); 
 end
 % get estimated parameters from results structure
-it = b5.results(4).x(gs,1);
-lr = b5.results(4).x(gs,3);
-sticky = b5.results(4).x(gs,2);
-wGems = b5.results(4).x(gs,4);
+it = b5.results(3).x(gs,1);
+sticky = b5.results(3).x(gs,2);
+lr_pos = b5.results(3).x(gs,3);
+lr_neg = b5.results(3).x(gs,4);
+
+
 % make table, write data to .csv for easy python import
-t = table(subID,gems,bomb,igbias,pGems,wGems,chose80,chose60,chose40,chose20,it,lr,sticky,rt_mean,rt_tot);
-writetable(t,[fullfile(rezDir,'b5_d100_table.csv')]);
+t = table(subID,gems,bomb,igbias,pGems,chose80,chose60,chose40,chose20,it,lr_pos,lr_neg,sticky,rt_mean,rt_tot);
+writetable(t,[fullfile(rezDir,'b5_best_table.csv')]);
 cabut studyDir rezDir;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% b6: model 1 is the best according to bms, but only model 4 has wGems
+% b6: model 1 is the best according to bms
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % load data
 load b6_mfit_default.mat
@@ -167,17 +168,17 @@ for s = 1:length(b6.data);
     rt_tot(s,1) = mean(b6.data(s).rt); 
 end
 % get estimated parameters from results structure
-it = b6.results(4).x(:,1);
-lr = b6.results(4).x(:,3);
-sticky = b6.results(4).x(:,2);
-wEarn = b6.results(4).x(:,4);
+it = b6.results(1).x(:,1);
+sticky = b6.results(1).x(:,2);
+lr = b6.results(1).x(:,3);
+
 % make table, write data to .csv for easy python import
-t = table(gems,bomb,igbias,pBurn,wEarn,chose80,chose60,chose40,chose20,it,lr,sticky,rt_mean,rt_tot);
-writetable(t,[fullfile(rezDir,'b6_d25_table.csv')]);
+t = table(gems,bomb,igbias,pBurn,chose80,chose60,chose40,chose20,it,lr,sticky,rt_mean,rt_tot);
+writetable(t,[fullfile(rezDir,'b6_best_table.csv')]);
 cabut studyDir rezDir;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% b7: model 1 is the best according to bms, but only model 4 has wGems
+% b7: model 3 is the best according to bms
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % load data
 load b7_mfit_default.mat
@@ -196,13 +197,13 @@ for s = 1:length(b7.data);
     rt_tot(s,1) = mean(b7.data(s).rt); 
 end
 % get estimated parameters from results structure
-it = b7.results(4).x(:,1);
-lr = b7.results(4).x(:,3);
-sticky = b7.results(4).x(:,2);
-wEarn = b7.results(4).x(:,4);
+it = b7.results(3).x(:,1);
+sticky = b7.results(3).x(:,2);
+lr_pos = b7.results(3).x(:,3);
+lr_neg = b7.results(3).x(:,4);
 % make table, write data to .csv for easy python import
-t = table(gems,bomb,igbias,pBurn,wEarn,chose80,chose60,chose40,chose20,it,lr,sticky,rt_mean,rt_tot);
-writetable(t,[fullfile(rezDir,'b7_d25_table.csv')]);
+t = table(gems,bomb,igbias,pBurn,chose80,chose60,chose40,chose20,it,lr_pos,lr_neg,sticky,rt_mean,rt_tot);
+writetable(t,[fullfile(rezDir,'b7_best_table.csv')]);
 cabut studyDir rezDir;
 
 % example of computing reward prediction accuracy (dated stuff, brah)
