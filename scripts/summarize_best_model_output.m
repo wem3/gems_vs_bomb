@@ -16,7 +16,7 @@ for s = 1:length(b1.data)
     condition{s,1} = b1.data(s).subject.cond;
     payout(s,1) = sum(sum(b1.data(s).r));
     rt_mean(s,1) = mean(b1.data(s).rt);
-    rt_tot(s,1) = mean(b1.data(s).rt);
+    rt_tot(s,1) = sum(b1.data(s).rt);
 end
 % get estimated parameters from results structure
 it = b1.results(1).x(:,1);
@@ -45,7 +45,7 @@ for s = 1:length(b2.data)
     chose40(s,1) = b2.data(s).subject.cFreq(3); 
     chose20(s,1) = b2.data(s).subject.cFreq(4); 
     rt_mean(s,1) = mean(b2.data(s).rt);
-    rt_tot(s,1) = mean(b2.data(s).rt);
+    rt_tot(s,1) = sum(b2.data(s).rt);
 end
 % get estimated parameters from results structure
 it = b2.results(1).x(:,1);
@@ -73,7 +73,7 @@ for s = 1:length(b3.data)
     chose40(s,1) = b3.data(s).subject.cFreq(3); 
     chose20(s,1) = b3.data(s).subject.cFreq(4); 
     rt_mean(s,1) = mean(b3.data(s).rt);
-    rt_tot(s,1) = mean(b3.data(s).rt);
+    rt_tot(s,1) = sum(b3.data(s).rt);
 end
 % get estimated parameters from results structure
 it = b3.results(1).x(:,1);
@@ -97,7 +97,7 @@ for s = 1:length(b4.data)
     bomb(s,1) = sum(b4.data(s).r(:,2));
     igbias(s,1) = b4.data(s).subject.igbias;
     rt_mean(s,1) = mean(b4.data(s).rt);
-    rt_tot(s,1) = mean(b4.data(s).rt);
+    rt_tot(s,1) = sum(b4.data(s).rt);
 end
 % get estimated parameters from results structure
 it = b4.results(4).x(:,1);
@@ -134,7 +134,7 @@ for s = 1:length(gs);
     chose40(s,1) = b5.data(s).subject.cFreq(3); 
     chose20(s,1) = b5.data(s).subject.cFreq(4);
     rt_mean(s,1) = mean(b5.data(s).rt);
-    rt_tot(s,1) = mean(b5.data(s).rt); 
+    rt_tot(s,1) = sum(b5.data(s).rt); 
 end
 % get estimated parameters from results structure
 it = b5.results(3).x(gs,1);
@@ -165,7 +165,7 @@ for s = 1:length(b6.data);
     chose40(s,1) = b6.data(s).subject.cFreq(3); 
     chose20(s,1) = b6.data(s).subject.cFreq(4);
     rt_mean(s,1) = mean(b6.data(s).rt);
-    rt_tot(s,1) = mean(b6.data(s).rt); 
+    rt_tot(s,1) = sum(b6.data(s).rt); 
 end
 % get estimated parameters from results structure
 it = b6.results(1).x(:,1);
@@ -194,7 +194,7 @@ for s = 1:length(b7.data);
     chose40(s,1) = b7.data(s).subject.cFreq(3); 
     chose20(s,1) = b7.data(s).subject.cFreq(4);
     rt_mean(s,1) = mean(b7.data(s).rt);
-    rt_tot(s,1) = mean(b7.data(s).rt); 
+    rt_tot(s,1) = sum(b7.data(s).rt); 
 end
 % get estimated parameters from results structure
 it = b7.results(3).x(:,1);
