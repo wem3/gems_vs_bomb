@@ -1,0 +1,37 @@
+concatenate raw data, call python function to organize columns
+```{bash}
+rawDataDir=/Volumes/crisp/hinl/bandit/gems_vs_bomb/raw/b5
+tmpFile=/tmp/tmp.csv
+baseFile=/Volumes/crisp/hinl/bandit/gems_vs_bomb/munge/b5_trial_headers.csv
+header=subjID,drift,trial_counter,trial_label,trial_type,respChoiceNum,gems,bombs,rt,GainOverPainPr_0,GainOverPainPr_1,GainOverPainPr_2,GainOverPainPr_3,gender,age,ethnicity,internal_node_id,WinPr_0,LosePr_0,WinPr_1,LosePr_1,WinPr_2,LosePr_2,WinPr_3,LosePr_3,like,value,connected,button_pressed
+echo $header > $baseFile
+python /Users/wem3/Developer/zach/csv_ops/standardize_columns.py -i $rawDataDir -o $tmpFile -b $baseFile
+```
+
+import data table from tmp.csv
+```{r}
+library("data.table")
+dt <- fread("/tmp/tmp.csv")
+```
+
+parse dt for trial data
+```{r}
+rawDataDir <- "/Volumes/crisp/hinl/bandit/gems_vs_bomb/raw/b5/"
+cleanDataDir <- "/Volumes/crisp/hinl/bandit/gems_vs_bomb/clean/"
+
+#dt[,subjID:=leftPadFunction(as.character(subjID))]
+setkey(dt,"subjID","trial_counter")
+trial_data <- dt[trial_label=="main_expt",.(subjID,trial_counter,respChoiceNum,gems,bombs,rt)]
+write.csv(trial_data,file = paste0(cleanDataDir,"b5_trial_data_R.csv"),row.names=FALSE)
+
+#show number of trials per subjID
+#dt[,.N,subjID]
+```
+
+```{r}
+demo <- dt[trial_type=="survey-text-sam"]
+survey_text <- dt[trial_type=="button-response",.(button_pressed,subjID)]
+dt[,.N,trial_type]
+demo[survey_text,on="subjID"]
+#dt1[dt2,on="subjID"]
+```

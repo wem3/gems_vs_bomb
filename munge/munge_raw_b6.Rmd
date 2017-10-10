@@ -1,0 +1,73 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+concatenate raw data, call python function to organize columns
+```{bash}
+STUDY_DIR=/Volumes/crisp/hinl/bandit/gems_vs_bomb
+STUDY=b6
+STANDARDIZE_PY=/Users/wem3/Developer/zach/csv_ops/standardize_columns.py 
+RAW_DIR=${STUDY_DIR}/raw/${STUDY}
+TMP_FILE=/tmp/tmp.csv
+python $STANDARDIZE_PY -i $RAW_DIR -o $TMP_FILE
+```
+
+import data table from tmp.csv
+```{r}
+library("data.table")
+dt <- fread("/tmp/tmp.csv")
+dt[trial_type == "button-response", button_pressed]
+```
+Convert subjID to string if desired to left pad with 0s
+```{r}
+#dt[,subjID:=leftPadFunction(as.character(subjID))]
+```
+We only want people who are Dem or Rep
+```{r}
+partisans <- dt[trial_type == "button-response" & button_pressed %in% c(0, 1), .(subjID, button_pressed)]
+```
+Set party--0 == Republican, 1 == Democrat
+```{r}
+partisans[, party := ifelse(button_pressed == 0, "Republican", "Democrat")]
+```
+Filter full dset to only have Dem/Rep & merge in party info
+```{r}
+dt <- dt[subjID %in% partisans$subjID]
+dt <- partisans[dt, on="subjID"]
+```
+parse dt for trial data
+```{r}
+setkey(dt,"subjID","trial_counter")
+trial_data <- dt[trial_label=="main_expt", .(subjID,trial_counter,respChoiceNum,gems,bombs,rt)]
+probs <- unique(dt[trial_label=="main_expt", .(subjID,GainOverPainPr_0, GainOverPainPr_1, GainOverPainPr_2, GainOverPainPr_3)])
+```
+```{r}
+CLEAN_DIR <- "/Volumes/crisp/hinl/bandit/gems_vs_bomb/clean/"
+write.csv(trial_data,file = paste0(CLEAN_DIR,"b6_trial_data_R.csv"),row.names=FALSE)
+```
+Get demographics and merge with political party
+```{r}
+demo <- dt[trial_type=="survey-text-sam", .(subjID, age, gender, ethnicity)]
+demo <- partisans[demo, on = "subjID"]
+demo <- probs[demo, on = "subjID"]
+```
+Get identification scores
+```{r}
+identification <- dt[trial_type == "identification"]
+identification[party == "Democrat", target_relative := ifelse(target == "the Democratic Party", "ingroup", "outgroup")]
+identification[party == "Republican", target_relative := ifelse(target == "the Republican party", "ingroup", "outgroup")]
+identification <- identification[ , .(ident_score = (like + value + connected)/ 3), .(subjID, expt_phase, target_relative)]
+identification
+```
+Reshape so each subj is on one line
+```{r}
+identification <- dcast(identification, subjID ~ expt_phase + target_relative, value.var = "ident_score")
+identification
+```
+Join that into the demographic info
+```{r}
+demo <- identification[demo, on = "subjID"]
+write.csv(x = demo, file = paste0(CLEAN_DIR, "b6_demo.csv"))
+demo
+```

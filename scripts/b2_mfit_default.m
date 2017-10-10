@@ -6,7 +6,7 @@ addpath('~/matlab/mfit');
 data = ppc_b2(studyDir);
 b2.data = data;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-nstarts=25; % number of start points for model optimization
+nstarts=100; % number of start points for model optimization
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % fit b2 models
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -38,4 +38,4 @@ b2.results(4) = r;
 b2.bms = mfit_bms(b2.results);
 % save data
 cabut b2;
-save b2_mfit_default.mat;
+save b2_mfit_d100.mat;

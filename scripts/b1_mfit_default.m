@@ -7,7 +7,7 @@ addpath('~/matlab/mfit');
 [data, excluded] = exclude_b1_subs(all_data);
 b1.data = data;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-nstarts=25; % number of start points for model optimization
+nstarts=100; % number of start points for model optimization
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % fit b1 models, fit empirical params, do bayesian model selection
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -28,4 +28,4 @@ b1.results(2) = r;
 % Bayesian model selection, save output
 b1.bms = mfit_bms(b1.results);
 cabut b1 studyDir
-save b1_mfit_default.mat;
+save b1_mfit_d100.mat;
