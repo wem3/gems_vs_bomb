@@ -4,7 +4,6 @@
 studyDir = '/Volumes/crisp/hinl/bandit/gems_vs_bomb';
 rezDir = fullfile(studyDir,'rez');
 scriptDir = fullfile(studyDir,'scripts');
-cd scriptDir
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % b1: model 1 beats model 2 
@@ -141,10 +140,10 @@ cabut studyDir rezDir;
 % b6: model 1 is the best according to bms, but only model 4 has wGems
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % load data
-load b6_mfit_d100.mat
+load b6_mfit_default.mat
 % loop over subjects
-for s = 1:length(gs);
-    subID{s,1} = b6.data(s).subject.subID;
+for s = 1:length(b6.data);
+    %subID{s,1} = b6.data(s).subject.subID;
     gems(s,1) = sum(b6.data(s).r(:,1));
     bomb(s,1) = sum(b6.data(s).r(:,2));
     pBurn(s,1) = b6.data(s).subject.pBurn;
@@ -155,14 +154,42 @@ for s = 1:length(gs);
     chose20(s,1) = b6.data(s).subject.cFreq(4); 
 end
 % get estimated parameters from results structure
-it = b6.results(4).x(gs,1);
-lr = b6.results(4).x(gs,3);
-sticky = b6.results(4).x(gs,2);
-wEarn = b6.results(4).x(gs,4);
+it = b6.results(4).x(:,1);
+lr = b6.results(4).x(:,3);
+sticky = b6.results(4).x(:,2);
+wEarn = b6.results(4).x(:,4);
 % make table, write data to .csv for easy python import
-t = table(subID,gems,bomb,igbias,pBurn,wEarn,chose80,chose60,chose40,chose20,it,lr,sticky);
+t = table(gems,bomb,igbias,pBurn,wEarn,chose80,chose60,chose40,chose20,it,lr,sticky);
 writetable(t,[fullfile(rezDir,'b6_d25_table.csv')]);
 cabut studyDir rezDir;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% b7: model 1 is the best according to bms, but only model 4 has wGems
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% load data
+load b7_mfit_default.mat
+% loop over subjects
+for s = 1:length(b7.data);
+    %subID{s,1} = b7.data(s).subject.subID;
+    gems(s,1) = sum(b7.data(s).r(:,1));
+    bomb(s,1) = sum(b7.data(s).r(:,2));
+    pBurn(s,1) = b7.data(s).subject.pBurn;
+    igbias(s,1) = b7.data(s).subject.igbias;
+    chose80(s,1) = b7.data(s).subject.cFreq(1); 
+    chose60(s,1) = b7.data(s).subject.cFreq(2); 
+    chose40(s,1) = b7.data(s).subject.cFreq(3); 
+    chose20(s,1) = b7.data(s).subject.cFreq(4); 
+end
+% get estimated parameters from results structure
+it = b7.results(4).x(:,1);
+lr = b7.results(4).x(:,3);
+sticky = b7.results(4).x(:,2);
+wEarn = b7.results(4).x(:,4);
+% make table, write data to .csv for easy python import
+t = table(gems,bomb,igbias,pBurn,wEarn,chose80,chose60,chose40,chose20,it,lr,sticky);
+writetable(t,[fullfile(rezDir,'b7_d25_table.csv')]);
+cabut studyDir rezDir;
+
 % example of computing reward prediction accuracy (dated stuff, brah)
 % for t = 1:height(bandit(1).demo)
 %     rpa(t,1) = mean(bandit(1).results(1).latents(t).rpe.^2);
