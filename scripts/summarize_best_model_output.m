@@ -159,6 +159,7 @@ for s = 1:length(b6.data);
     gems(s,1) = sum(b6.data(s).r(:,1));
     bomb(s,1) = sum(b6.data(s).r(:,2));
     pBurn(s,1) = b6.data(s).subject.pBurn;
+    pEarn(s,1) = 1 - pBurn(s,1);
     igbias(s,1) = b6.data(s).subject.igbias;
     chose80(s,1) = b6.data(s).subject.cFreq(1); 
     chose60(s,1) = b6.data(s).subject.cFreq(2); 
@@ -173,7 +174,7 @@ sticky = b6.results(1).x(:,2);
 lr = b6.results(1).x(:,3);
 
 % make table, write data to .csv for easy python import
-t = table(gems,bomb,igbias,pBurn,chose80,chose60,chose40,chose20,it,lr,sticky,rt_mean,rt_tot);
+t = table(gems,bomb,igbias,pEarn,chose80,chose60,chose40,chose20,it,lr,sticky,rt_mean,rt_tot);
 writetable(t,[fullfile(rezDir,'b6_best_table.csv')]);
 cabut studyDir rezDir;
 
@@ -188,6 +189,7 @@ for s = 1:length(b7.data);
     gems(s,1) = sum(b7.data(s).r(:,1));
     bomb(s,1) = sum(b7.data(s).r(:,2));
     pBurn(s,1) = b7.data(s).subject.pBurn;
+    pEarn(s,1) = 1 - pBurn(s,1);
     igbias(s,1) = b7.data(s).subject.igbias;
     chose80(s,1) = b7.data(s).subject.cFreq(1); 
     chose60(s,1) = b7.data(s).subject.cFreq(2); 
@@ -202,7 +204,7 @@ sticky = b7.results(3).x(:,2);
 lr_pos = b7.results(3).x(:,3);
 lr_neg = b7.results(3).x(:,4);
 % make table, write data to .csv for easy python import
-t = table(gems,bomb,igbias,pBurn,chose80,chose60,chose40,chose20,it,lr_pos,lr_neg,sticky,rt_mean,rt_tot);
+t = table(gems,bomb,igbias,pEarn,chose80,chose60,chose40,chose20,it,lr_pos,lr_neg,sticky,rt_mean,rt_tot);
 writetable(t,[fullfile(rezDir,'b7_best_table.csv')]);
 cabut studyDir rezDir;
 
